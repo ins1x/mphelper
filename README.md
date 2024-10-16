@@ -34,7 +34,6 @@
 - Текстовые игры с чатом (Крокодил, Викторина и.т.д)
 
 ## Требования
-- Вам потребуется рабочая копия игры GTA San Andreas с версией gta_sa.exe v1.0 US
 - [ASI Loader](https://www.gtagarage.com/mods/show.php?id=21709), [CLEO 4.1](https://cleo.li/ru)+, [Moonloader 0.26](https://www.blast.hk/threads/13305/), [SAMPFUNCS 5.4.1](https://www.blast.hk/threads/17/)+
 
 > Можно использовать более новые версии клиента и sampfuncs
@@ -42,6 +41,9 @@
 Зависимости Moonloader:
 * lua imgui - https://www.blast.hk/threads/19292/
 * lib.samp.events - https://github.com/THE-FYP/SAMP.Lua
+* lua-requests - https://luarocks.org/modules/jakeg/lua-requests
+
+> модуль **lua-requests** используется только для проверки версий, поэтому установка этого модуля необязательна для работы скрипта
 
 ## Установка
 

@@ -4,7 +4,7 @@ script_description("Assistant for event makers")
 script_dependencies('imgui', 'lib.samp.events')
 script_properties("work-in-pause")
 script_url("https://github.com/ins1x/moonloader-scripts/mphelper")
-script_version("1.3")
+script_version("1.3.1")
 -- script_moonloader(16) moonloader v.0.26
 -- tested on sa-mp client version: 0.3.7 R1
 -- activaton: ALT + E (show main menu) or command /events
@@ -308,6 +308,7 @@ local weaponNames = {
 function main()
    if not isSampLoaded() or not isSampfuncsLoaded() then return end
    while not isSampAvailable() do wait(100) end
+   
    if not ini.settings.menukeychanged then
       sampAddChatMessage("{696969}MP Helper {FFFFFF}Открыть меню: {CDCDCD}ALT + E", 0xFFFFFF)
    else
@@ -407,6 +408,9 @@ function main()
       end
       if servername:find("Абсолют") then
          isAbsolutePlay = true
+      end
+      if servername:find("Arizona") then
+         thisScript():unload()
       end
       
       if ini.settings.menukeychanged then
@@ -3406,23 +3410,14 @@ function sampev.onSendCommand(command)
 end  
 
 function sampev.onServerMessage(color, text)
+   local newtext = text
+   
    if checkbox.trackanswer.v then
       if string.len(textbuffer.mpanswer.v) >= 2 then
          if text:find(u8:decode(textbuffer.mpanswer.v)) then
             sampAddChatMessage("[SCRIPT]: {FFFFFF}Похоже есть правильный ответ!", 0x0FF6600)
             sampAddChatMessage("[MP] -> {00FF00}"..text, 0x0FF6600)
          end
-      end
-   end
-   
-   if checkbox.streamermode.v then
-      if newtext:match("(%d+)%.(%d+)%.(%d+)%.(%d+)") then
-         newtext = newtext:gsub("(%d+.%d+.%d+.%d+)", "***.***.***.***")
-      end
-   
-      local phoneneumber = string.match(newtext, "%+(%d+)")
-      if phoneneumber and string.len(phoneneumber) >= 10 then
-         newtext = newtext:gsub("%+(%d+)", "**********")
       end
    end
    
@@ -3444,6 +3439,19 @@ function sampev.onServerMessage(color, text)
          LastData.lastWorldName = string.match(text, "Вы присоеденились к миру: (.+)")
       end
    end
+   
+   if checkbox.streamermode.v then
+      if newtext:match("(%d+)%.(%d+)%.(%d+)%.(%d+)") then
+         newtext = newtext:gsub("(%d+.%d+.%d+.%d+)", "***.***.***.***")
+      end
+   
+      local phoneneumber = string.match(newtext, "%+(%d+)")
+      if phoneneumber and string.len(phoneneumber) >= 10 then
+         newtext = newtext:gsub("%+(%d+)", "**********")
+      end
+      return {color, newtext}
+   end
+   
 end
 
 function sampev.onShowDialog(dialogId, style, title, button1, button2, text)
